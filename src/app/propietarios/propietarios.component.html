@@ -1,0 +1,76 @@
+<ng-template class="template" #content let-c="close" let-d="dismiss">
+  <form class="form" [formGroup]="myForm" (ngSubmit)="guardar(myForm)">
+    <div class="modal-body">
+      <h4 class="data">Datos generales</h4>
+      <div>
+        <button type="button" class="btn-close" aria-label="Close" (click)="refresh()"
+          (click)="d('Cross click')"></button>
+      </div>
+      <div class="cont-nombre">
+        <input class="" formControlName="dsnombre_completo" type="text" placeholder="Ingrese un nombre" required>
+      </div>
+      <div class="cont-nombre">
+        <select class="" formControlName="dstipo_documento">
+          <option selected hidden [ngValue]="null">Seleccione tipo documento: </option>
+          <option value="T.I">T.I</option>
+          <option value="C.C">C.C</option>
+        </select>
+      </div>
+      <div class="cont-nombre"> <input class="" formControlName="nmidentificacion" type="number"
+          placeholder="Ingrese numero de identificacion" required>
+      </div>
+      <div class="cont-nombre"> <input class="" formControlName="dsciudad" type="text" placeholder="Ingrese la ciudad"
+          required>
+      </div>
+      <div class="cont-nombre"> <input class="" formControlName="dsdireccion" type="text"
+          placeholder="Ingrese la dirección" required>
+      </div>
+      <div class="cont-nombre"> <input class="" formControlName="nmtelefono" type="number"
+          placeholder="Ingrese un telefono" required>
+      </div>
+      <div class="cont-nombre"><input class="" formControlName="dtfecha_registro" type="text" onfocus="(this.type = 'date')" [min]="today" required></div>
+    </div>
+
+    <div>
+      <button (click)="formulario()" class="cancelar" type="button" (click)="d('Cross click')">Cancelar</button>
+      <button type="submit" class="guardar" title="Guardar" [disabled]="myForm.invalid">Guardar</button>
+    </div>
+  </form>
+</ng-template>
+
+<button class="lanzar" mat-icon (click)="open(content)" mat-list-item>Nuevo</button>
+
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Datos de propietarios</h4>
+</div>
+<br>
+<table class="table table-bordered hover table-borderless">
+  <thead>
+    <tr>
+      <th>N°</th>
+      <th>Nombre completo</th>
+      <th>Documento</th>
+      <th>N° Documento</th>
+      <th>Ciudad</th>
+      <th>Dirección</th>
+      <th>Telefono</th>
+      <th>Fecha de registro</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of datosPropietarios; index as i">
+      <td>{{i +1}}</td>
+      <td>{{item.dsnombre_completo}}</td>
+      <td>{{item.dstipo_documento}}</td>
+      <td>{{item.nmidentificacion}}</td>
+      <td>{{item.dsciudad}}</td>
+      <td>{{item.dsdireccion}}</td>
+      <td>{{item.nmtelefono}}</td>
+      <td>{{item.dtfecha_registro}}</td>
+      <td>
+        <button class="edit" mat-icon (click)="editar(item)" (click)="openEdit(content)"
+          matTooltip="Editar">Editar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
