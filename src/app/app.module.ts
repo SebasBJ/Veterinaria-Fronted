@@ -29,6 +29,9 @@ import { PacientesComponent } from './pacientes/pacientes.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTableExporterModule } from 'mat-table-exporter';
+import { CookieService } from 'ngx-cookie-service';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +41,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     PropietariosComponent,
     MascotasComponent,
     PacientesComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,9 +68,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     NgbModule,
     MatMenuModule,
     MatListModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatTableExporterModule,
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

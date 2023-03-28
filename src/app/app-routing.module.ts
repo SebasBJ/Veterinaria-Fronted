@@ -6,12 +6,17 @@ import { LoginComponent } from './login/login.component';
 import { PropietariosComponent } from './propietarios/propietarios.component';
 import { MascotasComponent } from './mascotas/mascotas.component';
 import { PacientesComponent } from './pacientes/pacientes.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: '/menu',
     pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    component: HomeComponent
   },
   {
     path: 'menu',

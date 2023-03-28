@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Propietarios } from '../interface/propietarios';
 import { PropietariosService } from '../service/propietarios.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-propietarios',
@@ -17,10 +20,15 @@ export class PropietariosComponent {
   myForm!: FormGroup;
   today = new Date().toISOString().split('T')[0];
   disableSelect = new FormControl(false);
+  displayColumn: string[] = ['nmid', 'dsnombre_completo', 'dstipo_documento', 'nmidentificacion', 'dsciudad', 'dsdireccion', 'nmtelefono', 'dtfecha_registro', 'acciones'];
+  dataSource: MatTableDataSource<Propietarios>;
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private fb: FormBuilder, private router: Router, private http: HttpClient, private config: NgbModalConfig, private modalService: NgbModal, private servicioPropietario: PropietariosService) {
     config.backdrop = 'static';
     config.keyboard = false;
+    this.dataSource = new MatTableDataSource(new Array<Propietarios>());
   }
 
   ngOnInit(): void {
@@ -55,9 +63,20 @@ export class PropietariosComponent {
 
   refresh() {
     let arrayPropietarios: Array<Propietarios> = [];
-    this.servicioPropietario.getPropietario().subscribe(datos => {
-      this.datosPropietarios = datos.data;
+    this.servicioPropietario.getPropietario().subscribe((rta: any) => {
+      this.dataSource = new MatTableDataSource(rta.data);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   formulario() {

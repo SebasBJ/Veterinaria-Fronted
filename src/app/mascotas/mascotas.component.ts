@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,9 @@ import { Mascotas } from '../interface/mascotas';
 import { EspecieMascota } from '../interface/especie-mascota';
 import { EspecieMascotaService } from '../service/especie-mascota.service';
 import { MascotasService } from '../service/mascotas.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+
 
 @Component({
   selector: 'app-mascotas',
@@ -18,16 +21,21 @@ export class MascotasComponent implements OnInit {
   datosMascotas: Array<Mascotas> = [];
   datosEspecie: Array<EspecieMascota> = [];
   myForm!: FormGroup;
+  displayColumn: string[] = ['nmid', 'dsnombre_mascota', 'dsespecie', 'dsraza', 'dtfecha_nacimiento', 'dsnombre_completo', 'acciones'];
+  dataSource: MatTableDataSource<Mascotas>;
   today = new Date().toISOString().split('T')[0];
   fecha = new FormControl(new Date());
   @Input() dsnombre_completo: string = '';
   @Input() nmid_propietarios: any;
+  @ViewChild(MatSort) sort!: MatSort;
+
 
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private router: Router, private http: HttpClient,
     private config: NgbModalConfig, private modalService: NgbModal,
     private serviceMascotas: MascotasService, private serviceEspecie: EspecieMascotaService) {
     config.backdrop = 'static';
     config.keyboard = false;
+    this.dataSource = new MatTableDataSource(new Array<Mascotas>());
   }
 
   ngOnInit(): void {
@@ -69,11 +77,11 @@ export class MascotasComponent implements OnInit {
   }
 
   refresh() {
-    let arrayMascotas: Array<Mascotas> = [];
     this.route.queryParams.subscribe(params => {
       this.nmid_propietarios = params['nmid'];
-      this.serviceMascotas.getPropietariosMascotas(this.nmid_propietarios).subscribe(datos => {
-        this.datosMascotas = datos.data;
+      this.serviceMascotas.getPropietariosMascotas(this.nmid_propietarios).subscribe((rta: any) => {
+        this.dataSource = new MatTableDataSource(rta.data);
+        this.dataSource.sort = this.sort;
       });
     });
   }
@@ -91,24 +99,24 @@ export class MascotasComponent implements OnInit {
     this.myForm = this.fb.group({
       nmid: [''],
       dsnombre_mascota: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
+      nmid_especie: [''],
       dsraza: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       dtfecha_nacimiento: [this.today],
-      nmid_propietarios: [''],
-      nmid_especie: [''],
+      nmid_propietarios: ['']
     });
   }
 
   editar(datos: {
-    nmid: any; dsnombre_mascota: any; dsraza: any; dtfecha_nacimiento: any;
-    nmid_propietarios: any; nmid_especie: any;
+    nmid: any; dsnombre_mascota: any; nmid_especie: any; dsraza: any; dtfecha_nacimiento: any;
+    nmid_propietarios: any;
   }) {
     this.myForm.setValue({
       nmid: datos.nmid,
       dsnombre_mascota: datos.dsnombre_mascota,
+      nmid_especie: datos.nmid_especie,
       dsraza: datos.dsraza,
       dtfecha_nacimiento: datos.dtfecha_nacimiento,
-      nmid_propietarios: datos.nmid_propietarios,
-      nmid_especie: datos.nmid_especie,
+      nmid_propietarios: datos.nmid_propietarios
     })
   }
 

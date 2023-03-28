@@ -25,6 +25,8 @@
     "@popperjs/core": "^2.11.6",
     "angular-animals": "^0.0.6",
     "bootstrap": "^5.2.3",
+    "mat-table-exporter": "^15.0.0",
+    "ngx-cookie-service": "^15.0.0",
     "puppeteer": "^19.8.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

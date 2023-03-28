@@ -1,3 +1,120 @@
-.example-spacer {
-  flex: 1 1 auto;
+.toolbar-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.menu-item {
+  font-size: 110%;
+}
+
+.header-toolbar {
+  padding: 0px 2px;
+  background-color: #00a1ba;
+  position: fixed;
+  z-index: 2;
+}
+
+h2.menu-app-name {
+  color: #ffffff;
+  margin-right: 20px;
+  font-size: 20px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.icon {
+  padding-left: 5px;
+  color: #ffffff;
+}
+
+.menu-logo {
+  margin: 50px 0px 0px 0px;
+  width: 200px;
+  object-fit: cover;
+}
+
+.sidenav-container {
+  flex: 1;
+}
+
+.content {
+  background-color: #ffffff;
+}
+
+.sidenav {
+  background-color: #00a1ba;
+  a {
+      color: #ffffff;
+  }
+}
+
+.titulo{
+  color: #ffffff;
+}
+
+.usuario{
+  margin-left: 75%;
+  color: #ffffff;
+}
+
+.user {
+  margin-top: 1%;
+  margin-left: 1%;
+  margin-right: 5%;
+  color: #ffffff;
+}
+
+.persona{
+  color: #ffffff;
+  margin-top: 10px;
+  margin-left: 25px;
+}
+
+.mascota{
+  color: #ffffff;
+  margin-top: 10px;
+  margin-left: 25px;
+}
+
+.active {
+  background-color: #058497;
+}
+
+.primerItem {
+  margin-top: 50px;
+}
+
+@media only screen and (max-width: 770px) {
+  h2.menu-app-name {
+      margin-right: 15px;
+      font-size: 15px;
+  }
+}
+
+@media only screen and (max-width:750px) {
+  .sidenav {
+      width: 100%;
+      .nav-list {
+          margin-top: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+      }
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  h2.menu-app-name {
+      margin-right: 5px;
+      font-size: 11px;
+  }
+  .icon {
+      color: #ffffff;
+      font-size: 20px;
+  }
 }
