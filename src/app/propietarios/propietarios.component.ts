@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs';
 import { Propietarios } from '../interface/propietarios';
 import { PropietariosService } from '../service/propietarios.service';
 
@@ -14,13 +13,12 @@ import { PropietariosService } from '../service/propietarios.service';
 })
 
 export class PropietariosComponent {
-  data: any;
   datosPropietarios: Array<Propietarios> = [];
   myForm!: FormGroup;
   today = new Date().toISOString().split('T')[0];
-  dtTrigger = new Subject<any>();
+  disableSelect = new FormControl(false);
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private router: Router, private http: HttpClient, private config: NgbModalConfig, private modalService: NgbModal, private servicioPropietario: PropietariosService) {
+  constructor(private fb: FormBuilder, private router: Router, private http: HttpClient, private config: NgbModalConfig, private modalService: NgbModal, private servicioPropietario: PropietariosService) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -66,7 +64,7 @@ export class PropietariosComponent {
     this.myForm = this.fb.group({
       nmid: [''],
       dsnombre_completo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      dstipo_documento: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+      dstipo_documento: [''],
       nmidentificacion: [''],
       dsciudad: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       dsdireccion: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
@@ -92,14 +90,28 @@ export class PropietariosComponent {
   }
 
   open(content: any) {
-    this.modalService.open(content, { size: 'xl' });
+    this.modalService.open(content);
   }
 
   openEdit(content: any) {
     this.modalService.open(content);
   }
 
-  onEdit(){
+  onEdit() {
     this.router.navigate(['/propietarios']);
+  }
+
+  mostrar(datos: { nmid: number; dsnombre_completo: string; }) {
+    this.router.navigate(["/mascotas"], { queryParams: { nmid: datos.nmid, dsnombre_completo: datos.dsnombre_completo } });
+  }
+
+  validar() {
+    if (this.myForm.valid)
+      this.myForm.markAllAsTouched();
+    for (const key in this.myForm.controls) {
+      this.myForm.controls[key].markAsDirty
+    }
+    let formularioPropietarios: any = document.getElementById("dsnombre_completo");
+    let formualarioValid: boolean = formularioPropietarios.reportValidity();
   }
 }

@@ -11,7 +11,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^15.0.0",
-    "@angular/cdk": "^15.2.3",
+    "@angular/cdk": "^15.2.2",
     "@angular/common": "^15.0.0",
     "@angular/compiler": "^15.0.0",
     "@angular/core": "^15.0.0",
@@ -23,23 +23,30 @@
     "@aws-amplify/ui-angular": "^1.0.35",
     "@ng-bootstrap/ng-bootstrap": "^14.0.1",
     "@popperjs/core": "^2.11.6",
+    "angular-animals": "^0.0.6",
     "bootstrap": "^5.2.3",
+    "puppeteer": "^19.8.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^15.0.1",
+    "@angular-devkit/build-angular": "^15.2.4",
     "@angular/cli": "~15.0.1",
     "@angular/compiler-cli": "^15.0.0",
     "@angular/localize": "^15.0.0",
     "@types/jasmine": "~4.3.0",
+    "istanbul": "^0.4.5",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
+    "karma-opera-launcher": "^1.0.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-requirejs": "^1.1.0",
+    "nyc": "^15.1.0",
     "typescript": "~4.8.2"
   }
 }

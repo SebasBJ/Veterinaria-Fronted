@@ -9,7 +9,7 @@ import { Propietarios } from '../interface/propietarios';
 export class PropietariosService {
 
   servidor = 'http://localhost:8080/api';
-  constructor(private servicio: HttpClient) { }
+  constructor(public servicio: HttpClient) { }
 
   getPropietario(): Observable<any> {
     return this.servicio.get(`${this.servidor}/propietarios`);

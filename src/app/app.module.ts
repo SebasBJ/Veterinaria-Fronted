@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,7 +9,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MenuComponent } from './menu/menu.component';
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,10 +20,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LoginComponent } from './login/login.component';
 import { PropietariosComponent } from './propietarios/propietarios.component';
-import { EditPropietariosComponent } from './edit-propietarios/edit-propietarios.component';
+import { MascotasComponent } from './mascotas/mascotas.component';
+import { PacientesComponent } from './pacientes/pacientes.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,8 @@ import { EditPropietariosComponent } from './edit-propietarios/edit-propietarios
     MenuComponent,
     LoginComponent,
     PropietariosComponent,
-    EditPropietariosComponent,
+    MascotasComponent,
+    PacientesComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,8 +59,12 @@ import { EditPropietariosComponent } from './edit-propietarios/edit-propietarios
     MatPaginatorModule,
     MatSortModule,
     MatSnackBarModule,
+    MatCardModule,
     FormsModule,
     NgbModule,
+    MatMenuModule,
+    MatListModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]

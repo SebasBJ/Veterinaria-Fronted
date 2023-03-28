@@ -4,25 +4,38 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { LoginComponent } from './login/login.component';
 import { PropietariosComponent } from './propietarios/propietarios.component';
+import { MascotasComponent } from './mascotas/mascotas.component';
+import { PacientesComponent } from './pacientes/pacientes.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: MenuComponent,
-    children: [
-      {
-        path: 'menu',
-        component: MenuComponent
-      },
-      {
-        path: 'login',
-        component: LoginComponent
-      },
-      {
-        path: 'propietarios',
-        component: PropietariosComponent
-      },
-    ]
+    redirectTo: '/menu',
+    pathMatch: 'full'
+  },
+  {
+    path: 'menu',
+    component: MenuComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'propietarios',
+    component: PropietariosComponent
+  },
+  {
+    path: 'mascotas',
+    component: MascotasComponent
+  },
+  {
+    path: 'pacientes',
+    component: PacientesComponent
+  },
+  {
+    path: '**',
+    component: MenuComponent
   }
 ];
 

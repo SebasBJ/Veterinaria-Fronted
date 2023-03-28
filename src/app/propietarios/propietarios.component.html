@@ -1,76 +1,104 @@
 <ng-template class="template" #content let-c="close" let-d="dismiss">
   <form class="form" [formGroup]="myForm" (ngSubmit)="guardar(myForm)">
-    <div class="modal-body">
-      <h4 class="data">Datos generales</h4>
-      <div>
-        <button type="button" class="btn-close" aria-label="Close" (click)="refresh()"
-          (click)="d('Cross click')"></button>
-      </div>
-      <div class="cont-nombre">
-        <input class="" formControlName="dsnombre_completo" type="text" placeholder="Ingrese un nombre" required>
-      </div>
-      <div class="cont-nombre">
-        <select class="" formControlName="dstipo_documento">
-          <option selected hidden [ngValue]="null">Seleccione tipo documento: </option>
-          <option value="T.I">T.I</option>
-          <option value="C.C">C.C</option>
-        </select>
-      </div>
-      <div class="cont-nombre"> <input class="" formControlName="nmidentificacion" type="number"
-          placeholder="Ingrese numero de identificacion" required>
-      </div>
-      <div class="cont-nombre"> <input class="" formControlName="dsciudad" type="text" placeholder="Ingrese la ciudad"
-          required>
-      </div>
-      <div class="cont-nombre"> <input class="" formControlName="dsdireccion" type="text"
-          placeholder="Ingrese la dirección" required>
-      </div>
-      <div class="cont-nombre"> <input class="" formControlName="nmtelefono" type="number"
-          placeholder="Ingrese un telefono" required>
-      </div>
-      <div class="cont-nombre"><input class="" formControlName="dtfecha_registro" type="text" onfocus="(this.type = 'date')" [min]="today" required></div>
+    <h3 class="data">Datos Generales</h3>
+    <div>
+      <button type="button" class="btn-close" aria-label="Close" (click)="formulario()"
+        (click)="d('Cross click')"></button>
     </div>
 
-    <div>
-      <button (click)="formulario()" class="cancelar" type="button" (click)="d('Cross click')">Cancelar</button>
-      <button type="submit" class="guardar" title="Guardar" [disabled]="myForm.invalid">Guardar</button>
+    <mat-form-field class="example-full-width">
+      <mat-label>Nombre Completo</mat-label>
+      <input formControlName="dsnombre_completo" type="text" matInput placeholder="Escribe tu nombre">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo Documento</mat-label>
+      <select formControlName="dstipo_documento" matNativeControl>
+        <option value="" selected></option>
+        <option value="T.I">T.I</option>
+        <option value="C.C">C.C</option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>N° Documento</mat-label>
+      <input formControlName="nmidentificacion" type="number" matInput placeholder="Ingresa el documento">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Ciudad</mat-label>
+      <input formControlName="dsciudad" type="text" matInput placeholder="Ingrese la ciudad">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Dirección</mat-label>
+      <input formControlName="dsdireccion" type="text" matInput placeholder="Ingrese la dirección">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Teléfono</mat-label>
+      <input formControlName="nmtelefono" matInput placeholder="Escribe tu número de teléfono">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Fecha de registro</mat-label>
+      <input formControlName="dtfecha_registro" type="text" onfocus="(this.type = 'date')" [min]="today" matInput>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="example-button-row">
+      <button type="submit" [disabled]="myForm.invalid" class="save-button"
+      mat-raised-button color="primary">Guardar</button>
+      <button (click)="formulario()" (click)="d('Cross click')" class="cancel-button" type="button"
+      mat-raised-button>Cancelar</button>
     </div>
   </form>
 </ng-template>
 
-<button class="lanzar" mat-icon (click)="open(content)" mat-list-item>Nuevo</button>
+<mat-toolbar color="primary">
+  <span>Propietarios</span>
+  <span class="example-spacer"></span>
+  <nav class="example-button-row">
+    <button class="lanzar" mat-raised-button (click)="open(content)" >Nuevo Propietario</button>
+  </nav>
+</mat-toolbar>
 
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Datos de propietarios</h4>
+  <h4 id="modal-basic-title">Datos de propietarios</h4>
 </div>
-<br>
-<table class="table table-bordered hover table-borderless">
-  <thead>
-    <tr>
-      <th>N°</th>
-      <th>Nombre completo</th>
-      <th>Documento</th>
-      <th>N° Documento</th>
-      <th>Ciudad</th>
-      <th>Dirección</th>
-      <th>Telefono</th>
-      <th>Fecha de registro</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of datosPropietarios; index as i">
-      <td>{{i +1}}</td>
-      <td>{{item.dsnombre_completo}}</td>
-      <td>{{item.dstipo_documento}}</td>
-      <td>{{item.nmidentificacion}}</td>
-      <td>{{item.dsciudad}}</td>
-      <td>{{item.dsdireccion}}</td>
-      <td>{{item.nmtelefono}}</td>
-      <td>{{item.dtfecha_registro}}</td>
-      <td>
-        <button class="edit" mat-icon (click)="editar(item)" (click)="openEdit(content)"
-          matTooltip="Editar">Editar</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+
+<div class="example-table-container">
+  <table class="table table-bordered hover table-borderless">
+    <thead>
+      <tr>
+        <th>N°</th>
+        <th>Nombre completo</th>
+        <th>Documento</th>
+        <th>N° Documento</th>
+        <th>Ciudad</th>
+        <th>Dirección</th>
+        <th>Telefono</th>
+        <th>Fecha de registro</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of datosPropietarios; index as i">
+        <td>{{i +1}}</td>
+        <td>{{item.dsnombre_completo}}</td>
+        <td>{{item.dstipo_documento}}</td>
+        <td>{{item.nmidentificacion}}</td>
+        <td>{{item.dsciudad}}</td>
+        <td>{{item.dsdireccion}}</td>
+        <td>{{item.nmtelefono}}</td>
+        <td>{{item.dtfecha_registro}}</td>
+        <td>
+          <button mat-raised-button color="primary" (click)="editar(item)" (click)="openEdit(content)"
+            matTooltip="Editar"><mat-icon>edit</mat-icon></button>
+          <button mat-raised-button color="primary" (click)="mostrar(item)">Añadir Mascota</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
