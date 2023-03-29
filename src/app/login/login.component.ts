@@ -9,6 +9,7 @@ import { UsersService } from '../service/users.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  
   email!: string;
   password!: string;
 
