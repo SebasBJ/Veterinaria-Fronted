@@ -1,137 +1,109 @@
+<div class="barra">
+  <a mat-button routerLink="/propietarios" routerLinkActive="activate-link" class="boton-regreso">&#8592; Regresar</a>
+</div>
+<br>
 <ng-template class="template" #content let-c="close" let-d="dismiss">
-  <form class="form" [formGroup]="myForm" (ngSubmit)="guardar(myForm)">
-    <h3 class="data">Datos Generales</h3>
-    <div>
+  <form [formGroup]="myForm" (ngSubmit)="guardar(myForm)">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Datos Generales</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="formulario()"
         (click)="d('Cross click')"></button>
     </div>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Nombre de la mascota</mat-label>
-      <input formControlName="dsnombre_mascota" type="text" matInput placeholder="Escribe tu nombre">
-    </mat-form-field>
+    <div class="modal-body" mat-icon>
+      <div class="cont-nombre">
+        <mat-icon class="icon">pets</mat-icon>
+        <input class="input" formControlName="dsnombre_mascota" type="text"
+          placeholder="Escriba el nombre de la mascota" name="nombre" required>
+      </div>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Raza de la mascota</mat-label>
-      <input formControlName="dsraza" type="text" matInput placeholder="Ingresa la raza">
-    </mat-form-field>
+      <div class="cont-nombre">
+        <mat-icon class="icon"> credit_card</mat-icon>
+        <select class="select" name="especie" formControlName="nmid_especie">
+          <option selected hidden [ngValue]="null">Seleccione la especie: </option>
+          <option *ngFor="let especie of datosEspecie" [value]="especie.nmid">{{ especie.dsespecie }}</option>
+        </select>
+      </div>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Fecha de registro</mat-label>
-      <input class="ip-desde" formControlName="dtfecha_nacimiento" type="text" placeholder="Desde"
-        onfocus="(this.type = 'date')" [min]="today" required>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+      <div class="cont-nombre">
+        <mat-icon class="icon">pets</mat-icon>
+        <input class="input" formControlName="dsraza" type="text" placeholder="Escriba la raza" name="raza" required>
+      </div>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Especie: </mat-label>
-      <select formControlName="nmid_especie" matNativeControl>
-        <option *ngFor="let especie of datosEspecie" [value]="especie.nmid">{{ especie.dsespecie }}</option>
-      </select>
-    </mat-form-field>
+      <div class="cont-nombre">
+        <mat-icon class="icon">calendar_today</mat-icon>
+        <input class="date" formControlName="dtfecha_nacimiento" [value]="this.today" type="date">
+      </div>
+    </div>
 
-    <div class="example-button-row">
-      <button type="submit" [disabled]="myForm.invalid" class="save-button" mat-raised-button
-        color="primary">Guardar</button>
-      <button (click)="formulario()" (click)="d('Cross click')" class="cancel-button" type="button"
-        mat-raised-button>Cancelar</button>
+    <div class=" modal-footer">
+      <button type="submit" class="save-exit" (click)="d('Cross click')" (click)="refresh()"
+        (click)="errorbutton()" title="Guardar y salir">
+        <mat-icon class="icon-button">save subdirectory_arrow_right</mat-icon>
+      </button>
+      <button class="close" type="button" (click)="refresh()" (click)="d('Cross click')">
+        Cancelar
+      </button>
     </div>
   </form>
 </ng-template>
 
-<mat-toolbar color="primary">
-  <span>Mascotas</span>
-  <span class="example-spacer"></span>
-  <nav class="example-button-row">
-    <button class="lanzar" mat-raised-button (click)="open(content)">Nuevo Mascota</button>
-  </nav>
-</mat-toolbar>
+<h3 id="titulo">Datos de mascotas</h3><br>
+<input class="from_control" id="filter" type="text" placeholder="Buscar Propietario..." name="filterPosts">
 
-<div class="modal-header">
-  <h4 id="modal-basic-title">Propietario de las mascotas</h4>
-</div>
+<button class="nuevo" mat-icon (click)="open(content)">
+  Nuevo<mat-icon id="icon-add"> add_circle</mat-icon>
+</button>
 
-<div>
-  <button (click)="exporter.exportTable('xlsx',{fileName:'info-mascotas'})">
-    Descargar Excel
-  </button>
-</div>
+<button class="excel" (click)="exporter.exportTable('xlsx',{fileName:'info-mascotas'})">
+  Descargar Excel<mat-icon id="icon-add"> backup</mat-icon>
+</button>
 
-<div>
-  <table mat-table [dataSource]="dataSource" class="" matTableExporter matSort matSortActive="created"
-    #exporter="matTableExporter">
-    <ng-container matColumnDef="nmid">
-      <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header>N°</th>
-      <td mat-cell *matCellDef="let row">{{ row.nmid }}</td>
-    </ng-container>
 
-    <ng-container matColumnDef="dsnombre_mascota">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Nombre mascota</th>
-      <td mat-cell *matCellDef="let row">{{ row.dsnombre_mascota }}</td>
-    </ng-container>
+<table mat-table [dataSource]="dataSource" class="table" matTableExporter matSort matSortActive="created"
+  #exporter="matTableExporter">
+  <ng-container matColumnDef="nmid">
+    <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header>N°</th>
+    <td mat-cell *matCellDef="let row">{{ row.nmid }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="dsespecie">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Especie
-      <th>
-      <td mat-cell *matCellDef="let row">{{ row.dsespecie }}</td>
-    </ng-container>
+  <ng-container matColumnDef="dsnombre_mascota">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Nombre mascota</th>
+    <td mat-cell *matCellDef="let row">{{ row.dsnombre_mascota }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="dsraza">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Raza</th>
-      <td mat-cell *matCellDef="let row">{{ row.dsraza }}</td>
-    </ng-container>
+  <ng-container matColumnDef="dsespecie">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Especie
+    <th>
+    <td mat-cell *matCellDef="let row">{{ row.dsespecie }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="dtfecha_nacimiento">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Fecha nacimiento</th>
-      <td mat-cell *matCellDef="let row">{{ row.dtfecha_nacimiento }}</td>
-    </ng-container>
+  <ng-container matColumnDef="dsraza">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Raza</th>
+    <td mat-cell *matCellDef="let row">{{ row.dsraza }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="dsnombre_completo">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Propietario
-      <th>
-      <td mat-cell *matCellDef="let row">{{ row.dsnombre_completo }}</td>
-    </ng-container>
+  <ng-container matColumnDef="dtfecha_nacimiento">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Fecha nacimiento</th>
+    <td mat-cell *matCellDef="let row">{{ row.dtfecha_nacimiento }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="acciones">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Acciones
-      <th>
-      <td mat-cell *matCellDef="let row">
-        <button mat-raised-button color="primary" (click)="editar(row)" (click)="openEdit(content)"
-          matTooltip="Editar"><mat-icon>edit</mat-icon></button>
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayColumn"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayColumn;"></tr>
-  </table>
-</div>
+  <ng-container matColumnDef="dsnombre_completo">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Propietario
+    <th>
+    <td mat-cell *matCellDef="let row">{{ row.dsnombre_completo }}</td>
+  </ng-container>
 
-<!-- <div class="example-table-container">
-  <table class="table table-bordered hover table-borderless">
-    <thead>
-      <tr>
-        <th>N°</th>
-        <th>Nombre mascota</th>
-        <th>Raza</th>
-        <th>Fecha Nacimiento</th>
-        <th>Propietario</th>
-        <th>Especie</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of datosMascotas; index as i">
-        <td>{{i +1}}</td>
-        <td>{{item.dsnombre_mascota}}</td>
-        <td>{{item.dsraza}}</td>
-        <td>{{item.dtfecha_nacimiento}}</td>
-        <td>{{item.dsnombre_completo}}</td>
-        <td>{{item.dsespecie}}</td>
-        <td>
-          <button mat-raised-button color="primary" (click)="editar(item)" (click)="openEdit(content)"
-            matTooltip="Editar"><mat-icon>edit</mat-icon></button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Acciones
+    <th>
+    <td mat-cell *matCellDef="let row">
+      <button class="editar" mat-icon (click)="editar(row)" (click)="openEdit(content)" matTooltip="Editar"
+        matTooltipClass="edit-tooltip">
+        <mat-icon>border_color</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayColumn"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumn;"></tr>
+</table>

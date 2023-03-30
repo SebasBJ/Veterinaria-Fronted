@@ -18,7 +18,9 @@ export class PacientesComponent {
   dataSource: MatTableDataSource<Mascotas>;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private config: NgbModalConfig, private modalService: NgbModal, private serviceMascotas: MascotasService) {
+  constructor(private route: ActivatedRoute, private router: Router,
+    private http: HttpClient, private config: NgbModalConfig, private modalService: NgbModal,
+    private serviceMascotas: MascotasService) {
     config.backdrop = 'static';
     config.keyboard = false;
     this.dataSource = new MatTableDataSource(new Array<Mascotas>());

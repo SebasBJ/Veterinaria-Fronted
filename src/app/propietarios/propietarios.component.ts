@@ -16,10 +16,12 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 
 export class PropietariosComponent {
+
   datosPropietarios: Array<Propietarios> = [];
   myForm!: FormGroup;
   today = new Date().toISOString().split('T')[0];
   disableSelect = new FormControl(false);
+
   displayColumn: string[] = ['nmid', 'dsnombre_completo', 'dstipo_documento', 'nmidentificacion', 'dsciudad', 'dsdireccion', 'nmtelefono', 'dtfecha_registro', 'acciones'];
   dataSource: MatTableDataSource<Propietarios>;
   @ViewChild(MatSort) sort!: MatSort;
@@ -47,6 +49,7 @@ export class PropietariosComponent {
         .subscribe(data => {
           alert("Se guardo con exito el propietario!");
           this.formulario();
+          this.refresh();
         }
         )
     } else {
@@ -58,11 +61,11 @@ export class PropietariosComponent {
     this.servicioPropietario.updatePropietario(form.value)
       .subscribe(data => {
         alert("Se actualizó con exito!!")
+        this.refresh();
       });
   }
 
   refresh() {
-    let arrayPropietarios: Array<Propietarios> = [];
     this.servicioPropietario.getPropietario().subscribe((rta: any) => {
       this.dataSource = new MatTableDataSource(rta.data);
       this.dataSource.sort = this.sort;
@@ -70,20 +73,11 @@ export class PropietariosComponent {
     });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
   formulario() {
     this.myForm = this.fb.group({
       nmid: [''],
       dsnombre_completo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      dstipo_documento: [''],
+      dstipo_documento: [],
       nmidentificacion: [''],
       dsciudad: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       dsdireccion: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
@@ -108,6 +102,13 @@ export class PropietariosComponent {
     })
   }
 
+  errorbutton() {
+    if (this.myForm.invalid) {
+      alert("Debes llenar todos los campos!")
+      return;
+    }
+  }
+
   open(content: any) {
     this.modalService.open(content);
   }
@@ -120,17 +121,7 @@ export class PropietariosComponent {
     this.router.navigate(['/propietarios']);
   }
 
-  mostrar(datos: { nmid: number; dsnombre_completo: string; }) {
+  mostrarMascota(datos: { nmid: number; dsnombre_completo: string; }) {
     this.router.navigate(["/mascotas"], { queryParams: { nmid: datos.nmid, dsnombre_completo: datos.dsnombre_completo } });
-  }
-
-  validar() {
-    if (this.myForm.valid)
-      this.myForm.markAllAsTouched();
-    for (const key in this.myForm.controls) {
-      this.myForm.controls[key].markAsDirty
-    }
-    let formularioPropietarios: any = document.getElementById("dsnombre_completo");
-    let formualarioValid: boolean = formularioPropietarios.reportValidity();
   }
 }

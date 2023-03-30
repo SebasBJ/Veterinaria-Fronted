@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Sat Mar 25 2023 20:20:50 GMT-0500 (hora estándar de Colombia)
 
-module.exports = function(config) {
+module.exports = function (config) {
   var chromeFlags = [
     '--headless', '--remote-debugging-port=9222', '--no-sandbox'
   ];
@@ -9,13 +9,15 @@ module.exports = function(config) {
     basePath: '',
     frameworks: ['jasmine', 'requirejs', '@angular-devkit/build-angular'],
     files: [
-      require('karma-jasmine'),
-      require('karma-chrome-launcher'),
-      require('karma-jasmine-html-reporter'),
-      require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma'),
       'test-main.js'
     ],
+    preprocessors: {
+      'test-main.js': ['webpack', 'sourcemap']
+    },
+    webpack: {},
+    webpackMiddleware: {
+      stats: 'errors-only'
+    },
     client: {
       clearContext: false,
       jasmine: {
@@ -35,7 +37,7 @@ module.exports = function(config) {
       ],
       fixWebpackSourcePaths: true
     },
-    reporters: ['progress','kjhtml'],
+    reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -43,6 +45,16 @@ module.exports = function(config) {
     browserNoActivityTimeout: 20000,
     browsers: ['CustomChromeHeadless'],
     singleRun: false,
-    concurrency: Infinity
-  })
-}
+    concurrency: Infinity,
+    customLaunchers: {
+      CustomChrome: {
+        base: "Chrome",
+        flags: chromeFlags
+      },
+      CustomChromeHeadless: {
+        base: "ChromeHeadless",
+        flags: chromeFlags
+      }
+    }
+  });
+};

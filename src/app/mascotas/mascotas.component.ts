@@ -21,10 +21,11 @@ export class MascotasComponent implements OnInit {
   datosMascotas: Array<Mascotas> = [];
   datosEspecie: Array<EspecieMascota> = [];
   myForm!: FormGroup;
-  displayColumn: string[] = ['nmid', 'dsnombre_mascota', 'dsespecie', 'dsraza', 'dtfecha_nacimiento', 'dsnombre_completo', 'acciones'];
-  dataSource: MatTableDataSource<Mascotas>;
   today = new Date().toISOString().split('T')[0];
   fecha = new FormControl(new Date());
+
+  displayColumn: string[] = ['nmid', 'dsnombre_mascota', 'dsespecie', 'dsraza', 'dtfecha_nacimiento', 'dsnombre_completo', 'acciones'];
+  dataSource: MatTableDataSource<Mascotas>;
   @Input() dsnombre_completo: string = '';
   @Input() nmid_propietarios: any;
   @ViewChild(MatSort) sort!: MatSort;
@@ -32,7 +33,7 @@ export class MascotasComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private router: Router, private http: HttpClient,
     private config: NgbModalConfig, private modalService: NgbModal,
-    private serviceMascotas: MascotasService, private serviceEspecie: EspecieMascotaService) {
+    public serviceMascotas: MascotasService, private serviceEspecie: EspecieMascotaService) {
     config.backdrop = 'static';
     config.keyboard = false;
     this.dataSource = new MatTableDataSource(new Array<Mascotas>());
@@ -87,7 +88,6 @@ export class MascotasComponent implements OnInit {
   }
 
   mostrarEspecie() {
-    let arrayEspecie: Array<EspecieMascota> = [];
     this.route.queryParams.subscribe(params => {
       this.serviceEspecie.getEspecieMascota().subscribe(datos => {
         this.datosEspecie = datos.data;
@@ -120,6 +120,13 @@ export class MascotasComponent implements OnInit {
     })
   }
 
+  errorbutton() {
+    if (this.myForm.invalid) {
+      alert("Debes llenar todos los campos!")
+      return;
+    }
+  }
+
   open(content: any) {
     this.modalService.open(content);
   }
@@ -130,15 +137,5 @@ export class MascotasComponent implements OnInit {
 
   onEdit() {
     this.router.navigate(['/mascotas']);
-  }
-
-  validar() {
-    if (this.myForm.valid)
-      this.myForm.markAllAsTouched();
-    for (const key in this.myForm.controls) {
-      this.myForm.controls[key].markAsDirty
-    }
-    let formularioMascotas: any = document.getElementById("dsnombre_mascota");
-    let formualarioValid: boolean = formularioMascotas.reportValidity();
   }
 }

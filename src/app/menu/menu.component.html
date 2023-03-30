@@ -4,13 +4,14 @@
     <span class="titulo">Menu</span>
     <mat-icon class="usuario">person</mat-icon>
     <p class="user">{{usuario}}</p>
+    <mat-icon class="exit">exit_to_app</mat-icon>
   </mat-toolbar>
   <mat-sidenav-container class="sidenav-container" [style.marginTop.px]='mobileQuery.matches ? 56 : 0'>
     <mat-sidenav #snav [mode]='mobileQuery.matches ? "over" : "side"' [fixedInViewport]='mobileQuery.matches'
       fixedTopGap="56" class="sidenav">
       <mat-nav-list class="nav-list">
         <div>
-          <img src="../../assets/util/veterinaria.jpg" alt="" class="menu-logo">
+          <img src="../../assets/util/logoV.jpg" alt="" class="menu-logo">
         </div><br>
         <div class="items-container">
           <mat-icon class="persona">perm_identity</mat-icon><a mat-button routerLink="/propietarios" routerLinkActive="activate-link">Propietarios</a><br>

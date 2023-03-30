@@ -1,7 +1,6 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { EspecieMascota } from '../interface/especie-mascota';
-
+import { of } from 'rxjs';
 import { EspecieMascotaService } from './especie-mascota.service';
 
 describe('EspecieMascotaService', () => {
@@ -17,25 +16,9 @@ describe('EspecieMascotaService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get a list of mascotas', () => {
-    const especie: EspecieMascota[] = [
-      {
-        nmid: 1,
-        dsespecie:''
-      },
-      {
-        nmid: 2,
-        dsespecie:''
-      }
-    ];
-
-    service.getEspecieMascota().subscribe(especie => {
-      expect(especie.length).toBe(2);
-      expect(especie).toEqual(especie);
-    });
-
-    const req = httpMock.expectOne(`${service.servidor}/especie`);
-    expect(req.request.method).toBe('GET');
-    req.flush(especie);
+  it('should call getEspecieMascota', () => {
+    const methodSpy = spyOn(service.servicio,'get').and.returnValue(of({}));
+    service.getEspecieMascota();
+    expect(methodSpy).toHaveBeenCalledWith(`${service.servidor}/especie`);
   });
 });

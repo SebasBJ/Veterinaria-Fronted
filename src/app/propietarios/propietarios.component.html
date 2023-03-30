@@ -1,172 +1,143 @@
+<div class="barra">
+  <a mat-button routerLink="/menu" routerLinkActive="activate-link" class="boton-regreso">&#8592; Regresar</a>
+</div>
+<br>
 <ng-template class="template" #content let-c="close" let-d="dismiss">
-  <form class="form" [formGroup]="myForm" (ngSubmit)="guardar(myForm)">
-    <h3 class="data">Datos Generales</h3>
-    <div>
+  <form [formGroup]="myForm" (ngSubmit)="guardar(myForm)">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Datos Generales</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="formulario()"
         (click)="d('Cross click')"></button>
     </div>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Nombre Completo</mat-label>
-      <input formControlName="dsnombre_completo" type="text" matInput placeholder="Escribe tu nombre">
-    </mat-form-field>
+    <div class="modal-body" mat-icon>
+      <div class="cont-nombre">
+        <mat-icon class="icon">face</mat-icon>
+        <input class="input" formControlName="dsnombre_completo" type="text" placeholder="Ingrese su nombre"
+          name="nombre" required>
+      </div>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Tipo Documento</mat-label>
-      <select formControlName="dstipo_documento" matNativeControl>
-        <option value="" selected></option>
-        <option value="T.I">T.I</option>
-        <option value="C.C">C.C</option>
-      </select>
-    </mat-form-field>
+      <div class="cont-nombre">
+        <mat-icon class="icon"> credit_card</mat-icon>
+        <select class="select" name="select" formControlName="dstipo_documento">
+          <option selected hidden [ngValue]="null">Seleccione un tipo documento: </option>
+          <option value="T.I">T.I</option>
+          <option value="C.C">C.C</option>
+        </select>
+      </div>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>N° Documento</mat-label>
-      <input formControlName="nmidentificacion" type="number" matInput placeholder="Ingresa el documento">
-    </mat-form-field>
+      <div class="cont-nombre">
+        <mat-icon class="icon">perm_identity</mat-icon>
+        <input class="input" formControlName="nmidentificacion" type="number"
+          placeholder="Ingresa el numero de documento" name="identificacion" required>
+      </div>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Ciudad</mat-label>
-      <input formControlName="dsciudad" type="text" matInput placeholder="Ingrese la ciudad">
-    </mat-form-field>
+      <div class="cont-nombre">
+        <mat-icon class="icon">location_city</mat-icon>
+        <input class="input" formControlName="dsciudad" type="text" placeholder="Ingrese la ciudad" name="ciudad"
+          required>
+      </div>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Dirección</mat-label>
-      <input formControlName="dsdireccion" type="text" matInput placeholder="Ingrese la dirección">
-    </mat-form-field>
+      <div class="cont-nombre">
+        <mat-icon class="icon">location_on</mat-icon>
+        <input class="input" formControlName="dsdireccion" type="text" placeholder="Ingrese la dirección"
+          name="direccion" required>
+      </div>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Teléfono</mat-label>
-      <input formControlName="nmtelefono" matInput placeholder="Escribe tu número de teléfono">
-    </mat-form-field>
+      <div class="cont-nombre">
+        <mat-icon class="icon">contact_phone</mat-icon>
+        <input class="input" formControlName="nmtelefono" type="number" placeholder="Escribe tu número de teléfono"
+          name="telefono" required>
+      </div>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Fecha de registro</mat-label>
-      <input formControlName="dtfecha_registro" type="text" onfocus="(this.type = 'date')" [min]="today" matInput>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+      <div class="cont-nombre">
+        <mat-icon class="icon">calendar_today</mat-icon>
+        <input class="date" formControlName="dtfecha_registro" [value]="this.today" type="date" readonly>
+      </div>
+    </div>
 
-    <div class="example-button-row">
-      <button type="submit" [disabled]="myForm.invalid" class="save-button" mat-raised-button
-        color="primary">Guardar</button>
-      <button (click)="formulario()" (click)="d('Cross click')" class="cancel-button" type="button"
-        mat-raised-button>Cancelar</button>
+    <div class=" modal-footer">
+      <button type="submit" class="save-exit" (click)="d('Cross click')" (click)="refresh()"
+        (click)="errorbutton()">Guardar
+        <mat-icon class="icon-button">save subdirectory_arrow_right</mat-icon>
+      </button>
+      <button class="close" type="button" (click)="refresh()" (click)="d('Cross click')">
+        Cancelar
+      </button>
     </div>
   </form>
 </ng-template>
 
-<mat-toolbar color="primary">
-  <span>Propietarios</span>
-  <span class="example-spacer"></span>
-  <nav class="example-button-row">
-    <button class="lanzar" mat-raised-button (click)="open(content)">Nuevo Propietario</button>
-  </nav>
-</mat-toolbar>
+<h3 id="titulo">Datos de propietarios</h3><br>
+<input class="from_control" id="filter" type="text" placeholder="Buscar Propietario..." name="filterPosts">
 
-<div class="modal-header">
-  <h4 id="modal-basic-title">Datos de propietarios</h4>
-</div>
+<button class="nuevo" mat-icon (click)="open(content)">
+  Nuevo<mat-icon id="icon-add"> add_circle</mat-icon>
+</button>
 
-<div>
-  <button (click)="exporter.exportTable('xlsx',{fileName:'info-propietarios'})">
-    Descargar Excel
-  </button>
-</div>
+<button class="excel" (click)="exporter.exportTable('xlsx',{fileName:'info-propietarios'})">
+  Descargar Excel<mat-icon id="icon-add"> backup</mat-icon>
+</button>
 
-<div>
-  <table mat-table [dataSource]="dataSource" class="" matTableExporter matSort matSortActive="created"
-    #exporter="matTableExporter">
-    <ng-container matColumnDef="nmid">
-      <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header>N°</th>
-      <td mat-cell *matCellDef="let row">{{ row.nmid }}</td>
-    </ng-container>
+<table mat-table [dataSource]="dataSource" class="table" matTableExporter matSort matSortActive="created"
+  #exporter="matTableExporter">
 
-    <ng-container matColumnDef="dsnombre_completo">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Nombre completo</th>
-      <td mat-cell *matCellDef="let row">{{ row.dsnombre_completo }}</td>
-    </ng-container>
+  <ng-container matColumnDef="nmid">
+    <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header>N°</th>
+    <td mat-cell *matCellDef="let row">{{ row.nmid }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="dstipo_documento">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Tipo documento
-      <th>
-      <td mat-cell *matCellDef="let row">{{ row.dstipo_documento }}</td>
-    </ng-container>
+  <ng-container matColumnDef="dsnombre_completo">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Nombre completo</th>
+    <td mat-cell *matCellDef="let row">{{ row.dsnombre_completo }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="nmidentificacion">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>N° Documento</th>
-      <td mat-cell *matCellDef="let row">{{ row.nmidentificacion }}</td>
-    </ng-container>
+  <ng-container matColumnDef="dstipo_documento">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Tipo documento
+    <th>
+    <td mat-cell *matCellDef="let row">{{ row.dstipo_documento }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="dsciudad">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Ciudad</th>
-      <td mat-cell *matCellDef="let row">{{ row.dsciudad }}</td>
-    </ng-container>
+  <ng-container matColumnDef="nmidentificacion">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>N° Documento</th>
+    <td mat-cell *matCellDef="let row">{{ row.nmidentificacion }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="dsdireccion">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Dirección
-      <th>
-      <td mat-cell *matCellDef="let row">{{ row.dsdireccion }}</td>
-    </ng-container>
+  <ng-container matColumnDef="dsciudad">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Ciudad</th>
+    <td mat-cell *matCellDef="let row">{{ row.dsciudad }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="nmtelefono">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Telefono
-      <th>
-      <td mat-cell *matCellDef="let row">{{ row.nmtelefono }}</td>
-    </ng-container>
+  <ng-container matColumnDef="dsdireccion">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Dirección
+    <th>
+    <td mat-cell *matCellDef="let row">{{ row.dsdireccion }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="dtfecha_registro">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Fecha registro
-      <th>
-      <td mat-cell *matCellDef="let row">{{ row.dtfecha_registro }}</td>
-    </ng-container>
+  <ng-container matColumnDef="nmtelefono">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Telefono
+    <th>
+    <td mat-cell *matCellDef="let row">{{ row.nmtelefono }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="acciones">
-      <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Acciones
-      <th>
-      <td mat-cell *matCellDef="let row">
-        <button mat-raised-button color="primary" (click)="editar(row)" (click)="openEdit(content)"
-          matTooltip="Editar"><mat-icon>edit</mat-icon></button>
-        <button mat-raised-button color="primary" (click)="mostrar(row)">Añadir Mascota</button>
+  <ng-container matColumnDef="dtfecha_registro">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Fecha registro
+    <th>
+    <td mat-cell *matCellDef="let row">{{ row.dtfecha_registro }}</td>
+  </ng-container>
 
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayColumn"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayColumn;"></tr>
-  </table>
-</div>
-
-<!-- <div class="example-table-container">
-  <table class="table table-bordered hover table-borderless">
-    <thead>
-      <tr>
-        <th>N°</th>
-        <th>Nombre completo</th>
-        <th>Documento</th>
-        <th>N° Documento</th>
-        <th>Ciudad</th>
-        <th>Dirección</th>
-        <th>Telefono</th>
-        <th>Fecha de registro</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of datosPropietarios; index as i">
-        <td>{{i +1}}</td>
-        <td>{{item.dsnombre_completo}}</td>
-        <td>{{item.dstipo_documento}}</td>
-        <td>{{item.nmidentificacion}}</td>
-        <td>{{item.dsciudad}}</td>
-        <td>{{item.dsdireccion}}</td>
-        <td>{{item.nmtelefono}}</td>
-        <td>{{item.dtfecha_registro}}</td>
-        <td>
-          <button mat-raised-button color="primary" (click)="editar(item)" (click)="openEdit(content)"
-            matTooltip="Editar"><mat-icon>edit</mat-icon></button>
-          <button mat-raised-button color="primary" (click)="mostrar(item)">Añadir Mascota</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell scope="col" *matHeaderCellDef mat-sort-header>Acciones
+    <th>
+    <td mat-cell *matCellDef="let row">
+      <button class="editar" mat-icon (click)="editar(row)" (click)="openEdit(content)" matTooltip="Editar"
+        matTooltipClass="edit-tooltip">
+        <mat-icon>border_color</mat-icon>
+      </button>
+      <button class="mascota" mat-icon (click)="mostrarMascota(row)" matTooltip="Añadir mascota">
+        <mat-icon>pets</mat-icon></button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayColumn"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumn;"></tr>
+</table>
