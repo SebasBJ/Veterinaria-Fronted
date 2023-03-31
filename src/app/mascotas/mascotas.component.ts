@@ -18,10 +18,8 @@ import { MatSort } from '@angular/material/sort';
 })
 
 export class MascotasComponent implements OnInit {
-  datosMascotas: Array<Mascotas> = [];
   datosEspecie: Array<EspecieMascota> = [];
   myForm!: FormGroup;
-  today = new Date().toISOString().split('T')[0];
   fecha = new FormControl(new Date());
 
   displayColumn: string[] = ['nmid', 'dsnombre_mascota', 'dsespecie', 'dsraza', 'dtfecha_nacimiento', 'dsnombre_completo', 'acciones'];
@@ -101,7 +99,7 @@ export class MascotasComponent implements OnInit {
       dsnombre_mascota: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       nmid_especie: [''],
       dsraza: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
-      dtfecha_nacimiento: [this.today],
+      dtfecha_nacimiento: [''],
       nmid_propietarios: ['']
     });
   }

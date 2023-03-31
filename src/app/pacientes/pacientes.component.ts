@@ -13,7 +13,6 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./pacientes.component.scss']
 })
 export class PacientesComponent {
-  datosMascotas: Array<Mascotas> = [];
   displayColumn: string[] = ['nmid', 'dsnombre_mascota', 'dsespecie', 'dsraza', 'dtfecha_nacimiento', 'dsnombre_completo'];
   dataSource: MatTableDataSource<Mascotas>;
   @ViewChild(MatSort) sort!: MatSort;

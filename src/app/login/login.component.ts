@@ -9,7 +9,6 @@ import { UsersService } from '../service/users.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  
   email!: string;
   password!: string;
 
@@ -19,10 +18,6 @@ export class LoginComponent {
   });
 
   constructor(private formBuilder: FormBuilder, public userService: UsersService, public router: Router) { }
-
-  onSubmit() {
-    // Aquí puedes agregar la lógica para enviar los datos del formulario al servidor
-  }
 
   getUsernameErrorMessage() {
     if (this.loginForm.controls['email'].hasError('required')) {

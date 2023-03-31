@@ -16,8 +16,6 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 
 export class PropietariosComponent {
-
-  datosPropietarios: Array<Propietarios> = [];
   myForm!: FormGroup;
   today = new Date().toISOString().split('T')[0];
   disableSelect = new FormControl(false);
