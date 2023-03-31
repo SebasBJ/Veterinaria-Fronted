@@ -3,7 +3,7 @@
 </div>
 <br>
 <h3 id="titulo">Datos de pacientes</h3><br>
-<input class="from_control" id="filter" type="text" placeholder="Buscar Propietario..." name="filterPosts">
+<input matInput class="from_control" id="filter" name="filterPosts" (keyup)="filtrar($event)" placeholder="Buscar paciente...">
 
 <button class="excel" (click)="exporter.exportTable('xlsx',{fileName:'info-propietarios'})">
   Descargar Excel<mat-icon id="icon-add"> backup</mat-icon>

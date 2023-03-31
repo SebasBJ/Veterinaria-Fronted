@@ -36,6 +36,11 @@ export class PropietariosComponent {
     this.refresh();
   }
 
+  filtrar(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filtro.trim().toLowerCase();
+  }  
+
   guardar(form: FormGroup) {
     if (this.myForm.valid) {
       if (form.value.nmid && form.value.nmid !== 0) {

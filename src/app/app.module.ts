@@ -42,6 +42,7 @@ import { HomeComponent } from './home/home.component';
     MascotasComponent,
     PacientesComponent,
     HomeComponent,
+
   ],
   imports: [
     BrowserModule,
