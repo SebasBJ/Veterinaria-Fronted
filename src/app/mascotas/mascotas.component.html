@@ -20,7 +20,6 @@
       <div class="cont-nombre">
         <mat-icon class="icon"> credit_card</mat-icon>
         <select class="select" name="especie" formControlName="nmid_especie">
-          <option selected hidden [ngValue]="null">Seleccione la especie: </option>
           <option *ngFor="let especie of datosEspecie" [value]="especie.nmid">{{ especie.dsespecie }}</option>
         </select>
       </div>
